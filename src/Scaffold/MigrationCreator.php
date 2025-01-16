@@ -3,6 +3,8 @@
 namespace Encore\Admin\Helpers\Scaffold;
 
 use Illuminate\Database\Migrations\MigrationCreator as BaseMigrationCreator;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Arr;
 
 class MigrationCreator extends BaseMigrationCreator
 {
@@ -10,6 +12,11 @@ class MigrationCreator extends BaseMigrationCreator
      * @var string
      */
     protected $bluePrint = '';
+
+    public function __construct(Filesystem $files, $customStubPath = null)
+    {
+        parent::__construct($files, $customStubPath);
+    }
 
     /**
      * Create a new model.
@@ -93,7 +100,7 @@ class MigrationCreator extends BaseMigrationCreator
                 $column .= "->comment('{$field['comment']}')";
             }
 
-            if (array_get($field, 'nullable') == 'on') {
+            if (Arr::get($field, 'nullable') == 'on') {
                 $column .= '->nullable()';
             }
 
